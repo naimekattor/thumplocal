@@ -1,13 +1,19 @@
 import React from "react";
 import Hero from "../components/Hero";
-import Services from "../components/Services";
 import ServiceSelector from "../components/ServiceSelector";
+import ServicesTimeline from "../components/Services";
+import WhyUs from "../components/WhyUs";
+import Contact from "../components/Contact";
+import FAQ from "../components/FAQ";
 export default function HomePage() {
   return (
     <>
       <Hero />
-      <Services />
+      <ServicesTimeline />
       <ServiceSelector />
+      <WhyUs />
+      <Contact />
+      <FAQ />
     </>
   );
 }

@@ -3,40 +3,27 @@ import ServiceCard from "./ServiceCard";
 import RangeBar from "./RangeBar";
 import SummaryPanel from "./SummaryPanel";
 
-// Define service data
-const services = [
-  // Top Row
-  {
-    id: 1,
-    title: "Online Foundation",
-    details: "50+ Online Listings",
-    price: 1000,
-    position: "top",
-  },
-  {
-    id: 2,
-    title: "Social Media Posting",
-    details: "Up to 5 Profiles",
-    price: 3000,
-    position: "top",
-  },
+const initialServices = [
+  { id: 1, title: "Online Foundation", price: 1000, position: "top" },
+  { id: 2, title: "Social Media Posting", price: 3000, position: "top" },
   {
     id: 3,
     title: "New Website Build",
-    details: "AI Command Based Interface",
-    options: "# of Pages*\n# 15",
     price: 10000,
     position: "top",
+    adjustable: true,
+    minPrice: 5000,
+    maxPrice: 20000,
   },
   {
     id: 4,
     title: "Google AdWords Campaign",
-    details: "95% - 99% of above amount invested in Google Ads",
-    options: "Monthly Ad Budget*\n$25,000",
     price: 25000,
     position: "top",
+    adjustable: true,
+    minPrice: 10000,
+    maxPrice: 50000,
   },
-  // Bottom Row
   {
     id: 5,
     title: "Online Reviews Management",
@@ -52,92 +39,160 @@ const services = [
   {
     id: 7,
     title: "Location Service Pages",
-    options: "# Of pages*\n5",
     price: 4000,
     position: "bottom",
+    adjustable: true,
+    minPrice: 1000,
+    maxPrice: 10000,
   },
   {
     id: 8,
     title: "Google Local Service Ads Campaign",
-    details: "95% - 99% of above amount invested in Google Ads",
-    options: "Monthly Ad Budget*\n$25,000",
     price: 25000,
     position: "bottom",
+    adjustable: true,
+    minPrice: 5000,
+    maxPrice: 50000,
   },
 ];
 
 const ServiceSelector = () => {
-  const [sliderValue, setSliderValue] = useState(4); // Default to 4 active services
+  const [services, setServices] = useState(initialServices);
+  const [sliderValue, setSliderValue] = useState(4);
 
-  const handleSliderChange = (event) => {
-    setSliderValue(parseInt(event.target.value, 10));
+  const handleSliderChange = (e) => setSliderValue(parseInt(e.target.value));
+
+  const handlePriceChange = (id, newPrice) => {
+    setServices((prev) =>
+      prev.map((s) => (s.id === id ? { ...s, price: newPrice } : s))
+    );
   };
 
-  const getActiveServices = (sliderValue, topServices, bottomServices) => {
-    const active = [];
-
-    for (let i = 1; i <= sliderValue; i++) {
-      if (i % 2 !== 0) {
-        // Odd → top service
-        const topIndex = Math.floor(i / 2);
-        if (topServices[topIndex]) active.push(topServices[topIndex]);
-      } else {
-        // Even → bottom service
-        const bottomIndex = i / 2 - 1;
-        if (bottomServices[bottomIndex])
-          active.push(bottomServices[bottomIndex]);
+  const handleRemoveService = (idToRemove) => {
+    setServices((prevServices) => {
+      const newServices = prevServices.filter((s) => s.id !== idToRemove);
+      if (sliderValue > newServices.length) {
+        setSliderValue(newServices.length);
       }
-    }
-
-    return active;
+      return newServices;
+    });
   };
+
   const topServices = services.filter((s) => s.position === "top");
   const bottomServices = services.filter((s) => s.position === "bottom");
 
   const activeServices = useMemo(() => {
-    return getActiveServices(sliderValue, topServices, bottomServices);
+    const activeTopCount = Math.ceil(sliderValue / 2);
+    const activeBottomCount = Math.floor(sliderValue / 2);
+    return [
+      ...topServices.slice(0, activeTopCount),
+      ...bottomServices.slice(0, activeBottomCount),
+    ].filter(Boolean);
   }, [sliderValue, topServices, bottomServices]);
 
-  const totalAmount = useMemo(() => {
-    return activeServices.reduce((sum, service) => sum + service.price, 0);
-  }, [activeServices]);
+  const totalAmount = useMemo(
+    () => activeServices.reduce((sum, s) => sum + s.price, 0),
+    [activeServices]
+  );
 
   return (
     <div className="bg-white min-h-screen w-full py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row">
+      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row lg:items-center ">
         <div className="flex-grow">
-          {/* Top row of services */}
-          <div className="grid grid-cols-8 gap-4 pb-4">
-            {topServices.map((service, index) => {
-              // Odd positions: 1,3,5,7
-              const colStart = 1 + index * 2;
-              return (
-                <div key={service.id} style={{ gridColumnStart: colStart }}>
-                  <ServiceCard {...service} isTop={true} />
+          {/* --- Large Screen Layout --- */}
+          <div className="hidden lg:block">
+            <div className="grid grid-cols-8 gap-4 pb-8 place-items-center">
+              {topServices.map((service, index) => (
+                <div
+                  key={service.id}
+                  style={{ gridColumnStart: 1 + index * 2 }}
+                >
+                  <ServiceCard
+                    {...service}
+                    isTop={true}
+                    value={service.price}
+                    onPriceChange={handlePriceChange}
+                    onRemove={handleRemoveService}
+                  />
                 </div>
-              );
-            })}
+              ))}
+            </div>
+            <RangeBar
+              value={sliderValue}
+              onChange={handleSliderChange}
+              min={0}
+              max={services.length}
+              step={1}
+            />
+            <div className="grid grid-cols-8 gap-4 pt-8 place-items-center">
+              {bottomServices.map((service, index) => (
+                <div
+                  key={service.id}
+                  style={{ gridColumnStart: 2 + index * 2 }}
+                >
+                  <ServiceCard
+                    {...service}
+                    isTop={false}
+                    value={service.price}
+                    onPriceChange={handlePriceChange}
+                    onRemove={handleRemoveService}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
 
-          {/* Range Bar */}
-          <RangeBar value={sliderValue} onChange={handleSliderChange} />
+          {/* --- Small Screen Vertical Layout --- */}
+          <div className="lg:hidden grid grid-cols-[1fr_auto_1fr] gap-x-4 items-start">
+            {/* Left Column - Odd positioned services */}
+            <div className="flex flex-col items-end space-y-12 pt-8">
+              {services
+                .filter((_, index) => index % 2 === 0) // Odd positioned (0, 2, 4...)
+                .map((service) => (
+                  <ServiceCard
+                    key={service.id}
+                    {...service}
+                    isLeft={true}
+                    value={service.price}
+                    onPriceChange={handlePriceChange}
+                    onRemove={handleRemoveService}
+                  />
+                ))}
+            </div>
 
-          {/* Bottom row of services */}
-          <div className="grid grid-cols-8 gap-4 pt-4">
-            {bottomServices.map((service, index) => {
-              // Even positions: 2,4,6,8
-              const colStart = 2 + index * 2;
-              return (
-                <div key={service.id} style={{ gridColumnStart: colStart }}>
-                  <ServiceCard {...service} isTop={false} />
-                </div>
-              );
-            })}
+            {/* Center Column - Vertical Main RangeBar */}
+            <div className="flex justify-center h-full min-h-[600px]">
+              <RangeBar
+                value={sliderValue}
+                onChange={handleSliderChange}
+                min={0}
+                max={services.length}
+                step={1}
+                orientation="vertical"
+              />
+            </div>
+
+            {/* Right Column - Even positioned services */}
+            <div className="flex flex-col items-start space-y-12 pt-8">
+              {services
+                .filter((_, index) => index % 2 === 1) // Even positioned (1, 3, 5...)
+                .map((service) => (
+                  <ServiceCard
+                    key={service.id}
+                    {...service}
+                    isLeft={false}
+                    value={service.price}
+                    onPriceChange={handlePriceChange}
+                    onRemove={handleRemoveService}
+                  />
+                ))}
+            </div>
           </div>
         </div>
 
-        {/* Summary Panel */}
-        <SummaryPanel totalAmount={totalAmount} />
+        <div className="w-full lg:w-auto mt-12 lg:mt-0 flex-shrink-0">
+          <SummaryPanel totalAmount={totalAmount} />
+        </div>
       </div>
     </div>
   );

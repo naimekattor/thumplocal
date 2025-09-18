@@ -1,1 +1,60 @@
 @import "tailwindcss";
+
+/* Custom styles for vertical range input */
+.range-input-vertical {
+  writing-mode: bt-lr; /* IE */
+  -webkit-appearance: slider-vertical; /* WebKit */
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  outline: none;
+  cursor: pointer;
+  border: none;
+}
+
+/* WebKit browsers */
+.range-input-vertical::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #10b981;
+  cursor: pointer;
+  border: 3px solid white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
+}
+
+.range-input-vertical::-webkit-slider-thumb:hover {
+  background: #059669;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Firefox */
+.range-input-vertical::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #10b981;
+  cursor: pointer;
+  border: 3px solid white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
+}
+
+.range-input-vertical::-moz-range-thumb:hover {
+  background: #059669;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Track styling for better step indication */
+.range-input-vertical::-webkit-slider-track {
+  background: transparent;
+  height: 100%;
+}
+
+.range-input-vertical::-moz-range-track {
+  background: transparent;
+  height: 100%;
+}

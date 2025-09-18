@@ -1,135 +1,103 @@
 import React from "react";
-import { Building2, Crown, Settings } from "lucide-react";
+import serviceIcon1 from "../assets/images/serviceIcon1.png";
+import serviceIcon2 from "../assets/images/serviceIcon2.png";
+import serviceIcon3 from "../assets/images/serviceIcon3.png";
+// Individual Service Card Component
+const ServiceCard = ({ imageUrl, title, description }) => {
+  return (
+    <div className="flex flex-col items-center text-center w-full md:w-1/3 px-4">
+      {/* Image with circular border and pointer */}
+      <div className="relative mb-6">
+        <div className="  flex items-center justify-center bg-white p-4">
+          <img
+            src={imageUrl}
+            alt={`${title} icon`}
+            className="w-full h-full object-contain"
+          />
+        </div>
+        {/* <div className="absolute left-1/2 -translate-x-1/2 -bottom-2 w-0 h-0 border-l-8 border-l-transparent border-r-8 border-r-transparent border-t-8 border-gray-300"></div> */}
+      </div>
 
-const Services = () => {
+      {/* Timeline dot */}
+      <div className="w-5 h-5 rounded-full bg-white border-2 border-gray-300 z-10"></div>
+
+      {/* Text content */}
+      <div className="mt-4">
+        <h3
+          className={`text-[23px] font-bold ${
+            title === "Marketing"
+              ? "text-[#19C0D4]"
+              : title === "Online activity"
+              ? "text-[#625DC0]"
+              : "text-[#D75EC7]"
+          }`}
+        >
+          {title}
+        </h3>
+        <p className="mt-2 text-g[#767171] text-[18px]">{description}</p>
+      </div>
+    </div>
+  );
+};
+
+// Main Services Timeline Component
+const ServicesTimeline = () => {
   const services = [
     {
-      icon: Building2,
+      imageUrl: serviceIcon1,
       title: "Marketing",
       description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the",
-      color: "primary",
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the",
     },
     {
-      icon: Crown,
+      imageUrl: serviceIcon2,
       title: "Online activity",
       description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the",
-      color: "secondary",
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the",
     },
     {
-      icon: Settings,
+      imageUrl: serviceIcon3,
       title: "Management",
       description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the",
-      color: "accent",
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the",
     },
   ];
 
   return (
-    <section className="py-16 lg:py-24 bg-background">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl lg:text-5xl font-bold text-foreground mb-6">
+    <section className="bg-white font-sans py-32">
+      <div className="container mx-auto px-4">
+        {/* Header Section */}
+        <div className="text-center mb-16 md:mb-20">
+          <h2 className="text-3xl md:text-[65px] font-extrabold text-[#393764]">
             Services Of Demo. Ai
           </h2>
-          <p className="text-lg text-muted-foreground max-w-4xl mx-auto leading-relaxed">
+          <p className="mt-4 text-[#7A7989] text-[28px]  mx-auto">
             Lorem Ipsum is simply dummy text of the printing and typesetting
             industry. Lorem Ipsum has been the industry's standard dummy text
             ever since the 1500s, when an unknown printer took a galley of
           </p>
         </div>
 
-        {/* Services Grid */}
-        <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
-          {services.map((service, index) => {
-            const IconComponent = service.icon;
-            return (
-              <div key={index} className="text-center group">
-                {/* Icon Container */}
-                <div className="relative mb-8">
-                  <div
-                    className={`
-                    w-32 h-32 mx-auto rounded-full border-4 bg-white shadow-lg
-                    flex items-center justify-center relative
-                    ${
-                      service.color === "primary"
-                        ? "border-primary"
-                        : service.color === "secondary"
-                        ? "border-secondary"
-                        : "border-pink-500"
-                    }
-                    group-hover:scale-105 transition-transform duration-300
-                  `}
-                  >
-                    <IconComponent
-                      size={48}
-                      className={`
-                        ${
-                          service.color === "primary"
-                            ? "text-primary"
-                            : service.color === "secondary"
-                            ? "text-secondary"
-                            : "text-pink-500"
-                        }
-                      `}
-                    />
-                    {/* Pointer */}
-                    <div
-                      className={`
-                      absolute -bottom-4 w-6 h-6 rotate-45
-                      ${
-                        service.color === "primary"
-                          ? "bg-primary"
-                          : service.color === "secondary"
-                          ? "bg-secondary"
-                          : "bg-pink-500"
-                      }
-                    `}
-                    ></div>
-                  </div>
+        {/* Timeline Section */}
+        <div className="relative">
+          {/* Horizontal line for desktop */}
+          <div className="hidden md:block absolute top-[348px] left-0 w-full h-0.5 bg-gray-300"></div>
 
-                  {/* Connection Line */}
-                  <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-px h-12 bg-border"></div>
-                  <div className="absolute top-[180px] left-1/2 transform -translate-x-1/2 w-3 h-3 rounded-full bg-border"></div>
-                </div>
-
-                {/* Content */}
-                <div className="space-y-4">
-                  <h3
-                    className={`
-                    text-2xl font-semibold
-                    ${
-                      service.color === "primary"
-                        ? "text-primary"
-                        : service.color === "secondary"
-                        ? "text-secondary"
-                        : "text-pink-500"
-                    }
-                  `}
-                  >
-                    {service.title}
-                  </h3>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {service.description}
-                  </p>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Bottom Connection Line */}
-        <div className="hidden md:block relative mt-8">
-          <div className="absolute top-0 left-0 w-full h-px bg-border"></div>
-          <div className="absolute top-0 left-1/6 w-3 h-3 rounded-full bg-border transform -translate-y-1/2"></div>
-          <div className="absolute top-0 left-1/2 w-3 h-3 rounded-full bg-border transform -translate-y-1/2"></div>
-          <div className="absolute top-0 right-1/6 w-3 h-3 rounded-full bg-border transform -translate-y-1/2"></div>
+          {/* Service Cards Container */}
+          <div className="flex flex-col md:flex-row justify-between relative space-y-12 md:space-y-0">
+            {services.map((service, index) => (
+              <ServiceCard
+                key={index}
+                imageUrl={service.imageUrl}
+                title={service.title}
+                description={service.description}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>
   );
 };
 
-export default Services;
+export default ServicesTimeline;
