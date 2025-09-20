@@ -9,9 +9,11 @@ const RangeBar = ({
   orientation = "horizontal",
   step = "any",
 }) => {
-  const percentage = max > min ? ((value - min) / (max - min)) * 100 : 0;
+  // Ensure we don't divide by zero if min and max are the same
+  const percentage = ((value - min) / (max - min)) * 100;
 
-  // Vertical Layout
+  // --- Vertical Layout ---
+  // The visual elements are reversed to fill from top-to-bottom
   if (orientation === "vertical") {
     return (
       <div className="relative w-16 h-full flex justify-center py-4">
@@ -21,7 +23,7 @@ const RangeBar = ({
           <div className="absolute w-2 h-full bg-gray-200 rounded-full left-1/2 -translate-x-1/2"></div>
 
           {/* Step indicators for discrete values */}
-          {step === 1 && (
+          {step === 1 && max > min && (
             <div className="absolute left-1/2 -translate-x-1/2 h-full flex flex-col justify-between py-1">
               {Array.from({ length: max - min + 1 }, (_, i) => (
                 <div key={i} className="w-1 h-1 bg-gray-400 rounded-full"></div>
@@ -29,24 +31,25 @@ const RangeBar = ({
             </div>
           )}
 
-          {/* Progress */}
+          {/* Progress (fills from the top) */}
           <div
-            className="absolute w-2 bg-gradient-to-t from-green-400 to-teal-500 rounded-full left-1/2 -translate-x-1/2 bottom-0"
+            className="absolute w-2 bg-gradient-to-b from-green-400 to-teal-500 rounded-full left-1/2 -translate-x-1/2 top-0"
             style={{ height: `${percentage}%` }}
           ></div>
 
-          {/* Thumb (visual only) */}
+          {/* Thumb (visual only, positioned from top) */}
           <div
             className="absolute w-6 h-6 bg-white border-2 border-green-500 rounded-full shadow-lg pointer-events-none z-10"
             style={{
-              bottom: `calc(${percentage}% - 12px)`,
+              top: `calc(${percentage}% - 12px)`, // 12px is half the thumb's height
               left: "50%",
               transform: "translateX(-50%)",
             }}
           ></div>
         </div>
 
-        {/* Functional input overlay */}
+        {/* Functional input overlay (invisible) */}
+        {/* The native vertical slider goes bottom-to-top, but our CSS handles the visual reversal */}
         <input
           type="range"
           min={min}
@@ -60,19 +63,26 @@ const RangeBar = ({
     );
   }
 
-  // Horizontal Layout (No changes needed)
+  // --- Horizontal Layout ---
   return (
     <div className="relative w-full flex flex-col items-center my-4 px-4">
       <div className="relative w-full h-4">
+        {/* Track */}
         <div className="absolute w-full h-2 bg-gray-200 rounded-full top-1"></div>
+
+        {/* Progress */}
         <div
           className="absolute h-2 bg-gradient-to-r from-green-400 to-teal-500 rounded-full top-1"
           style={{ width: `${percentage}%` }}
         ></div>
+
+        {/* Thumb */}
         <div
           className="absolute top-1/2 -translate-y-1/2 w-6 h-6 bg-white border-2 border-green-500 rounded-full shadow-md pointer-events-none"
-          style={{ left: `calc(${percentage}% - 12px)` }}
+          style={{ left: `calc(${percentage}% - 12px)` }} // 12px is half the thumb's width
         ></div>
+
+        {/* Functional input overlay (invisible) */}
         <input
           type="range"
           min={min}
