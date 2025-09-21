@@ -4,7 +4,12 @@ import RangeBar from "./RangeBar";
 import SummaryPanel from "./SummaryPanel";
 
 const initialServices = [
-  { id: 1, title: "Online Foundation", price: 1000, position: "top" },
+  {
+    id: 1,
+    title: "Online Foundation 50+ Online Listings",
+    price: 1000,
+    position: "top",
+  },
   {
     id: 2,
     title: "Online Reviews Management",
@@ -12,7 +17,12 @@ const initialServices = [
     position: "bottom",
   },
 
-  { id: 3, title: "Social Media Posting", price: 3000, position: "top" },
+  {
+    id: 3,
+    title: "Social Media Posting Up to 5 Profiles",
+    price: 3000,
+    position: "top",
+  },
   {
     id: 4,
     title: "SEO - Search Engine Optimization",
@@ -128,8 +138,8 @@ const ServiceSelector = () => {
         <span className="font-extrabold text-[#006A05] text-center">Move</span>{" "}
         the pointer to see the appropriate package for you.
       </h2>
-      <div className="container mx-auto flex flex-col lg:flex-row lg:items-center">
-        <div className="flex-grow">
+      <div className="container mx-auto flex flex-col lg:flex-row lg:items-center border border-amber-300">
+        <div className="flex-grow border border-amber-300">
           {/* --- Large Screen Layout --- */}
           <div className="hidden lg:block">
             {/* TOP ROW (odd indexes) */}
@@ -140,6 +150,7 @@ const ServiceSelector = () => {
                   <div
                     key={service.id}
                     style={{ gridColumnStart: 1 + index * 2 }}
+                    className="border border-amber-300"
                   >
                     <ServiceCard
                       {...service}

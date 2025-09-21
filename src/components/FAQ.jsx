@@ -47,7 +47,7 @@ const FAQ = () => {
   };
 
   return (
-    <section className="py-16 lg:py-24 bg-gray-50">
+    <section id="FAQ" className="py-16 lg:py-24 bg-gray-50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16">
@@ -70,7 +70,7 @@ const FAQ = () => {
             >
               <button
                 onClick={() => toggleFAQ(index)}
-                className="w-full flex justify-between items-center px-6 py-4 text-left hover:bg-gray-50 transition-colors"
+                className="w-full flex justify-between items-center px-6 py-4 text-left hover:bg-gray-50 transition-colors cursor-pointer"
               >
                 <span className="font-medium text-[#4F5256] text-[20px] cursor-pointer">
                   {faq.question}
@@ -83,11 +83,15 @@ const FAQ = () => {
                   )}
                 </span>
               </button>
-              {openIndex === index && (
-                <div className="px-6 pb-4">
-                  <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
-                </div>
-              )}
+              <div
+                className={`px-6 transition-all duration-300 ease-in-out overflow-hidden ${
+                  openIndex === index
+                    ? "max-h-96 opacity-100 pb-4"
+                    : "max-h-0 opacity-0"
+                }`}
+              >
+                <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
+              </div>
             </div>
           ))}
         </div>

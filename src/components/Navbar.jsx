@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import logo from "../assets/images/logo.png";
-
+import { Link } from "react-router";
 const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const navLinks = [
-    { href: "/", text: "Home" },
-    { href: "#", text: "Terms and Condition" },
-    { href: "/privacy", text: "Privacy" },
-    { href: "#", text: "Access Portal" },
-    { href: "#", text: "FAQ" },
+    { to: "/", text: "Home" },
+    { to: "/", text: "Terms and Condition" },
+    { to: "/privacy", text: "Privacy" },
+    { to: "/", text: "Access Portal" },
+    { to: "/", text: "FAQ" },
   ];
 
   return (
-    <nav className="w-full bg-white py-2 relative z-50">
+    <nav className="w-full bg-white py-2  z-50 sticky top-0">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
@@ -22,17 +22,17 @@ const Navbar = () => {
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center space-x-6">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.text}
-                href={link.href}
-                className={`text-gray-700 hover:text-gray-900 text-lg md:text-xl font-medium ${
+                to={link.to}
+                className={`text-gray-700  text-lg md:text-xl font-medium hover:text-[#8BB353] ${
                   link.text === "FAQ"
                     ? "border-2 border-[#8BB353] px-2 py-1 rounded text-[#8BB353]"
                     : ""
                 }`}
               >
                 {link.text}
-              </a>
+              </Link>
             ))}
           </div>
 

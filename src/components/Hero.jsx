@@ -17,10 +17,12 @@ const Hero = () => {
 
           {/* Right Side - Text Content */}
           <div className="order-2 lg:order-none md:col-span-5 col-span-12 flex flex-col justify-center text-center lg:text-left px-4">
-            <div className="space-y-4 sm:space-y-6">
-              <h1 className="font-extrabold leading-tight text-4xl sm:text-5xl lg:text-[93px]">
-                <span className="text-[#53B3AB] block">AI</span>
-                <span className="text-[#53B3AB] block">MARKETING</span>
+            <div className="space-y-4 sm:space-y-6 max-w-lg md:text-right text-center">
+              <h1 className="font-extrabold leading-tight text-4xl sm:text-5xl lg:text-[93px] text-[#53B3AB] block">
+                AI
+              </h1>
+              <h1 className="font-extrabold leading-tight text-4xl sm:text-5xl lg:text-[93px] text-[#53B3AB] block">
+                MARKETING
               </h1>
 
               <p className="text-base sm:text-lg lg:text-[24px] text-[#484D44] dark:text-gray-300 leading-relaxed max-w-md lg:max-w-full mx-auto lg:mx-0">
@@ -29,8 +31,8 @@ const Hero = () => {
                 text ever since the 1500s.
               </p>
 
-              <div className="pt-4 flex justify-center lg:justify-start">
-                <button className="px-6 sm:px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white text-base font-medium rounded-lg shadow-md transition">
+              <div className="pt-4 flex justify-center lg:justify-end">
+                <button className="px-6 sm:px-8 py-3 bg-[#8BB353] hover:bg-[#589700] text-white text-base font-medium rounded-lg shadow-md transition cursor-pointer">
                   Get Started
                 </button>
               </div>
