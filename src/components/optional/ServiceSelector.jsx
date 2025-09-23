@@ -238,7 +238,7 @@ const ServiceSelector = () => {
                 ))}
               </div>
               {hasServices && (
-                <div className="px-8" ref={rangeBarRef}>
+                <div className="" ref={rangeBarRef}>
                   <RangeBar
                     value={sliderValue}
                     onChange={handleSliderChange}
